@@ -1,34 +1,33 @@
-import database from "infra/database.js";
+import database from "infra/database";
 import { version } from "react";
 
 async function status(request, response) {
-  const updadedAt = new Date().toISOString();
+  const updatedAt = new Date().toISOString();
 
   const databaseVersionResult = await database.query("SHOW server_version;");
   const databaseVersionValue = databaseVersionResult.rows[0].server_version;
 
-  const databaseMaxConnectionsResunlt = await database.query(
-    "Show max_connections;",
+  const databaseMaxConnectionsResult = await database.query(
+    "SHOW max_connections;",
   );
   const databaseMaxConnectionsValue =
-    databaseMaxConnectionsResunlt.rows[0].max_conncections;
-
+    databaseMaxConnectionsResult.rows[0].max_connections;
   const databaseName = process.env.POSTGRES_DB;
-  const databaseOpenConnectioResult = await database.query({
+  const databaseOpenedConnectionsResult = await database.query({
     text: "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;",
     values: [databaseName],
   });
 
-  const databaseOpenConnectioValue =
-    await databaseOpenConnectioResult.rows[0].count;
+  const databaseOpenedConnectionsValue =
+    databaseOpenedConnectionsResult.rows[0].count;
 
   response.status(200).json({
-    updaded_at: updadedAt,
+    updated_at: updatedAt,
     dependencies: {
       database: {
         version: databaseVersionValue,
-        max_conncections: parseInt(databaseMaxConnectionsValue),
-        opened_connections: databaseOpenConnectioValue,
+        max_connections: parseInt(databaseMaxConnectionsValue),
+        opened_connections: databaseOpenedConnectionsValue,
       },
     },
   });
