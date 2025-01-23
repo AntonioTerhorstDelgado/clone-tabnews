@@ -36,12 +36,12 @@ export default async function migrations(request, response) {
       });
 
       if (migratedMigrations.length > 0) {
-        return response.status(201).json(migratedMigrations);
+        return response.status(200).json(migratedMigrations);
       }
       return response.status(200).json(migratedMigrations);
     }
   } catch (error) {
-    console.error(error);
+    throw error;
   } finally {
     await dbClient.end();
   }
