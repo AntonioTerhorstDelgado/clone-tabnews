@@ -40,7 +40,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           fetch-depth: 0
-          node-version: "lts/hydrogen"
 
       - run: npm ci
 
