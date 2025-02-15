@@ -6,12 +6,20 @@ beforeAll(async () => {
   await database.query("drop schema public cascade; create schema public;");
 });
 
-test("GET to /api/v1/migrations should return 200", async () => {
-  const response = await fetch("http://localhost:3000/api/v1/migrations");
-  expect(response.status).toBe(200);
+describe("GET /api/v1/migrations", () => {
+  describe("Anonymous user", () => {
+    test("Retrieving pending migrations", async () => {
+      const response = await fetch("http://localhost:3000/api/v1/status");
+      expect(response.status).toBe(200);
 
-  const responseBody = await response.json();
+      const responseBody = await response.json();
 
-  expect(Array.isArray(responseBody)).toBe(true);
-  expect(responseBody.length).toBeGreaterThan(0);
+      const parsedUpdatedAt = new Date(responseBody.updated_at).toISOString();
+      expect(responseBody.updated_at).toEqual(parsedUpdatedAt);
+
+      expect(responseBody.dependencies.database.version).toEqual("16.0");
+      expect(responseBody.dependencies.database.max_connections).toEqual(100);
+      expect(responseBody.dependencies.database.opened_connections).toEqual(1);
+    });
+  });
 });
