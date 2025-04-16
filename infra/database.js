@@ -1,4 +1,5 @@
 import { Client } from "pg";
+import { ServiceError } from "./errors.js";
 
 async function query(queryObject) {
   let client;
@@ -7,9 +8,11 @@ async function query(queryObject) {
     const result = await client.query(queryObject);
     return result;
   } catch (error) {
-    console.log("\n Erro dentro do cath do database.js:");
-    console.error(error);
-    throw error;
+    const servicesErrorObject = new ServiceError({
+      message: "Erro na conexão com o banco de dados ou na Query.",
+      cause: error,
+    });
+    throw servicesErrorObject;
   } finally {
     await client?.end();
   }
@@ -42,6 +45,5 @@ function getSSLValues() {
   }
 
   /*console.log("NODE_ENV: " + process.env.NODE_ENV);*/
-
   return process.env.NODE_ENV === "production" ? true : false;
 }
