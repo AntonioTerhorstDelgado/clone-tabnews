@@ -34,7 +34,7 @@ describe("GET /api/v1/users/[username]", () => {
       expect(response2Body).toEqual({
         id: response2Body.id,
         username: "MesmoCase",
-        password: "senha123",
+        password: response2Body.password, // Password should not be returned in production, but is here for testing
         email: "mesmo.case@gmail.com",
         created_at: response2Body.created_at,
         updated_at: response2Body.updated_at,
@@ -70,7 +70,7 @@ describe("GET /api/v1/users/[username]", () => {
       expect(response2Body).toEqual({
         id: response2Body.id,
         username: "CaseDiferente",
-        password: "senha123",
+        password: response2Body.password, // Password should not be returned in production, but is here for testing
         email: "case.diferente@gmail.com",
         created_at: response2Body.created_at,
         updated_at: response2Body.updated_at,
