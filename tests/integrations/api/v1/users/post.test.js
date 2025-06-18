@@ -32,7 +32,7 @@ describe("POST /api/v1/users", () => {
       expect(responseBody).toEqual({
         id: responseBody.id,
         username: "antonioterhorst",
-        password: responseBody.password, // Password should not be returned in production, but is here for testing
+        password: responseBody.password,
         email: "antonioterhorst@gmail.com",
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
@@ -90,7 +90,7 @@ describe("POST /api/v1/users", () => {
       expect(response2Body).toEqual({
         name: "ValidationError",
         message: "O email informado já está sendo utilizado.",
-        action: "Utilize outro email para realizar o cadastro.",
+        action: "Utilize outro email para realizar esta operação.",
         status_Code: 400,
       });
     });
@@ -128,7 +128,7 @@ describe("POST /api/v1/users", () => {
       expect(response2Body).toEqual({
         name: "ValidationError",
         message: "O username informado já está sendo utilizado.",
-        action: "Utilize outro username para realizar o cadastro.",
+        action: "Utilize outro username para esta operação.",
         status_Code: 400,
       });
     });
