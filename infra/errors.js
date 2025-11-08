@@ -23,7 +23,7 @@ export class ServiceError extends Error {
     super(message || "Serviço indisponível no momento.", {
       cause,
     });
-    this.name = "InternalServerError";
+    this.name = "ServiceError";
     this.action = "Verifique se o serviço está disponível.";
     this.statusCode = 503;
   }
@@ -37,6 +37,7 @@ export class ServiceError extends Error {
     };
   }
 }
+
 export class ValidationError extends Error {
   constructor({ cause, message, action }) {
     super(message || "Um erro de validação ocorreu", {
@@ -46,6 +47,7 @@ export class ValidationError extends Error {
     this.action = action || "Ajuste os dados enviados e tente novamente.";
     this.statusCode = 400;
   }
+
   toJSON() {
     return {
       name: this.name,
@@ -73,6 +75,26 @@ export class NotFoundError extends Error {
       message: this.message,
       action: this.action,
       status_Code: this.statusCode,
+    };
+  }
+}
+
+export class UnauthorizedError extends Error {
+  constructor({ cause, message, action }) {
+    super(message || "Usuário não autenticado.", {
+      cause,
+    });
+    this.name = "UnauthorizedError";
+    this.action = action || "Faça novamente o login para continuar.";
+    this.statusCode = 401;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
     };
   }
 }
