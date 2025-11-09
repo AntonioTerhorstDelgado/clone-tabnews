@@ -23,10 +23,9 @@ describe("PATCH /api/v1/users/[username]", () => {
 
     expect(responseBody).toEqual({
       name: "NotFoundError",
-      message: "Username informado não foi encontrado no sistema.",
-      action:
-        "Verifique se o username está digitado corretamente e tente novamente.",
-      status_Code: 404,
+      message: "O username informado não foi encontrado no sistema.",
+      action: "Verifique se o username está digitado corretamente.",
+      status_code: 404,
     });
   });
 
@@ -56,8 +55,8 @@ describe("PATCH /api/v1/users/[username]", () => {
     expect(responseBody).toEqual({
       name: "ValidationError",
       message: "O username informado já está sendo utilizado.",
-      action: "Utilize outro username para esta operação.",
-      status_Code: 400,
+      action: "Utilize outro username para realizar esta operação.",
+      status_code: 400,
     });
   });
 
@@ -90,7 +89,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       name: "ValidationError",
       message: "O email informado já está sendo utilizado.",
       action: "Utilize outro email para realizar esta operação.",
-      status_Code: 400,
+      status_code: 400,
     });
   });
 
@@ -109,6 +108,7 @@ describe("PATCH /api/v1/users/[username]", () => {
         }),
       },
     );
+
     expect(response.status).toBe(200);
     const responseBody = await response.json();
     expect(responseBody).toEqual({
@@ -119,6 +119,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       created_at: responseBody.created_at,
       updated_at: responseBody.updated_at,
     });
+
     expect(uuidVersion(responseBody.id)).toBe(4);
     expect(Date.parse(responseBody.created_at)).not.toBeNaN();
     expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
@@ -141,6 +142,7 @@ describe("PATCH /api/v1/users/[username]", () => {
         }),
       },
     );
+
     expect(response.status).toBe(200);
     const responseBody = await response.json();
 
@@ -152,6 +154,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       created_at: responseBody.created_at,
       updated_at: responseBody.updated_at,
     });
+
     expect(uuidVersion(responseBody.id)).toBe(4);
     expect(Date.parse(responseBody.created_at)).not.toBeNaN();
     expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
@@ -186,6 +189,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       created_at: responseBody.created_at,
       updated_at: responseBody.updated_at,
     });
+
     expect(uuidVersion(responseBody.id)).toBe(4);
     expect(Date.parse(responseBody.created_at)).not.toBeNaN();
     expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
@@ -197,10 +201,12 @@ describe("PATCH /api/v1/users/[username]", () => {
       "newPassword2",
       userInDatabase.password,
     );
+
     const incorrectPasswordMatch = await password.compare(
       "newPassword1",
       userInDatabase.password,
     );
+
     expect(correctPasswordMatch).toBe(true);
     expect(incorrectPasswordMatch).toBe(false);
   });
